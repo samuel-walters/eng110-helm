@@ -1,82 +1,30 @@
-# Default values for eng110-nodeapp.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# app deploy settings
 
-replicaCount: 1
+app_name: eng110-node-deployment
+app_replicas: 3
+app_selector: node
+app_image_name: samuelwalters/app:v9
+app_container_port: 3000
+app_env_name: DB_HOST
+app_env_value: mongodb://eng110-service-mongo:27017/posts
+app_image_pull_policy: Always
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+# app service settings
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+app_service_name: eng110-service-app
+app_service_type: LoadBalancer
+app_service_port: 80
+app_target_Port: 3000
+app_nodeport: 30000
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+# mongodb deploy settings
 
-podAnnotations: {}
+db_name: eng110-mongo
+db_selector: mongo
+db_image_name: mongo
+db_container_port: 27017
 
-podSecurityContext: {}
-  # fsGroup: 2000
+# mongodb service settings
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+db_mongo_service_mame: eng110-service-mongo
+db_ports: 27017

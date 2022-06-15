@@ -1,15 +1,25 @@
+---
+#Service for App
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "eng110-nodeapp.fullname" . }}
-  labels:
-    {{- include "eng110-nodeapp.labels" . | nindent 4 }}
+  name: {{ .Values.app_service_name }}
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
   selector:
-    {{- include "eng110-nodeapp.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.app_selector }}
+  ports:
+    - port: {{ .Values.app_service_port }}
+      targetPort: {{ .Values.app_target_port }}
+      nodePort: {{ .Values.app_nodeport }}
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.db_mongo_service_mame }}
+spec:
+  selector:
+    app: {{ .Values.db_selector }}
+  ports:
+    - port: {{ .Values.db_ports }}
+      targetPort: {{ .Values.db_ports }}

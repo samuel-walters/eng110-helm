@@ -1,61 +1,55 @@
+---
+# App Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "eng110-nodeapp.fullname" . }}
-  labels:
-    {{- include "eng110-nodeapp.labels" . | nindent 4 }}
+  name: {{ .Values.app_name }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.app_replicas }}
   selector:
     matchLabels:
-      {{- include "eng110-nodeapp.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.app_selector }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "eng110-nodeapp.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.app_selector }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "eng110-nodeapp.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .Values.app_selector }}
+          image: {{ .Values.samuelwalters/app:v9 }}
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            - containerPort: {{ .Values.app_container_port }}
+          env:
+            - name: {{ .Values.app_env_name }}
+              value: {{ .Values.app_env_value }}
+          imagePullPolicy: {{ .Values.app_image_pull_policy }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+---
+# Mongo Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.db_name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.db_selector }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db_selector }}
+    spec:
+      containers:
+        - name: {{ .Values.db_selector }}
+          image: {{ .Values.db_image_name }}
+          ports:
+            - containerPort: {{ .Values.db_container_port }}
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
