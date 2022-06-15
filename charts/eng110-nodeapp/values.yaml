@@ -26,7 +26,7 @@ db_container_port: 27017
 
 # mongodb service settings
 
-db_mongo_service_mame: eng110-service-mongo
+db_mongo_service_name: eng110-service-mongo
 db_ports: 27017
 
 # for ingress.yaml (which is disabled at present)

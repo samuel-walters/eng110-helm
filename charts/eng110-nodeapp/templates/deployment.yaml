@@ -3,26 +3,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sam-node-deployment
+  name: {{ .Values.app_name }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.app_replicas }}
   selector:
     matchLabels:
-      app: node
+      app: {{ .Values.app_selector }}
   template:
     metadata:
       labels:
-        app: node
+        app: {{ .Values.app_selector }}
     spec:
       containers:
-        - name: node
+        - name: {{ .Values.app_selector }}
           image: samuelwalters/app:v9
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.app_container_port }}
           env:
-            - name: DB_HOST
-              value: mongodb://sam-service-mongo:27017/posts
-          imagePullPolicy: Always
+            - name: {{ .Values.app_env_name }}
+              value: {{ .Values.app_env_value }}
+          imagePullPolicy: {{ .Values.app_image_pull_policy }}
           resources:
             limits:
               memory: 512Mi
@@ -35,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sam-service-app
+  name: {{ .Values.app_service_name }}
 spec:
   selector:
-    app: node
+    app: {{ .Values.app_selector }}
   ports:
-    - port: 80
-      targetPort: 3000
-      nodePort: 30000
+    - port: {{ .Values.app_service_port }}
+      targetPort: {{ .Values.app_target_Port }}
+      nodePort: {{ .Values.app_nodeport }}
   type: LoadBalancer

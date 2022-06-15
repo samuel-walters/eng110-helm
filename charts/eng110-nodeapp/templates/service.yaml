@@ -1,30 +1,30 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sam-service-mongo
+  name: {{ .Values.db_mongo_service_name }}
 spec:
   selector:
-    app: mongo
+    app: {{ .Values.db_selector }}
   ports:
-    - port: 27017
-      targetPort: 27017
+    - port: {{ .Values.db_container_port }}
+      targetPort: {{ .Values.db_container_port }}
 ---
 # Mongo Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sam-mongo
+  name: {{ .Values.db_name }}
 spec:
   selector:
     matchLabels:
-      app: mongo
+      app: {{ .Values.db_selector }}
   template:
     metadata:
       labels:
-        app: mongo
+        app: {{ .Values.db_selector }}
     spec:
       containers:
-        - name: mongo
-          image: mongo
+        - name: {{ .Values.db_selector }}
+          image: {{ .Values.db_image_name }}
           ports:
-            - containerPort: 27017
+            - containerPort: {{ .Values.db_container_port }}
