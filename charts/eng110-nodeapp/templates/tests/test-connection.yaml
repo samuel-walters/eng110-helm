@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "eng110-nodeapp.fullname" . }}-test-connection"
-  labels:
-    {{- include "eng110-nodeapp.labels" . | nindent 4 }}
+  name: "{{ .Values.app_name }}-test-connection"
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +9,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "eng110-nodeapp.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ .Values.app_name }}:{{ .Values.app_container_port }}']
   restartPolicy: Never

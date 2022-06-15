@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.app_selector }}
-          image: {{ .Values.samuelwalters/app:v9 }}
+          image: samuelwalters/app:v9
           ports:
             - containerPort: {{ .Values.app_container_port }}
           env:
