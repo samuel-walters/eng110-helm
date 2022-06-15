@@ -50,6 +50,3 @@ spec:
           image: {{ .Values.db_image_name }}
           ports:
             - containerPort: {{ .Values.db_container_port }}
-          volumeMounts:
-            - name: storage
-              mountPath: /data/db
