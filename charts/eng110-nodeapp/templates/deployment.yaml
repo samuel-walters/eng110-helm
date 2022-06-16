@@ -13,6 +13,7 @@ spec:
       labels:
         app: {{ .Values.app_selector }}
     spec:
+      nodeName: {{ .Values.app_node_to_run_on }}
       containers:
         - name: {{ .Values.app_selector }}
           image: samuelwalters/app:v9
