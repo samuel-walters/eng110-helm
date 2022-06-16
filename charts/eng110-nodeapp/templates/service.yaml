@@ -1,3 +1,4 @@
+#Service for Mongodb
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,22 +10,16 @@ spec:
     - port: {{ .Values.db_container_port }}
       targetPort: {{ .Values.db_container_port }}
 ---
-# Mongo Deployment
-apiVersion: apps/v1
-kind: Deployment
+#Service for App
+apiVersion: v1
+kind: Service
 metadata:
-  name: {{ .Values.db_name }}
+  name: {{ .Values.app_service_name }}
 spec:
   selector:
-    matchLabels:
-      app: {{ .Values.db_selector }}
-  template:
-    metadata:
-      labels:
-        app: {{ .Values.db_selector }}
-    spec:
-      containers:
-        - name: {{ .Values.db_selector }}
-          image: {{ .Values.db_image_name }}
-          ports:
-            - containerPort: {{ .Values.db_container_port }}
+    app: {{ .Values.app_selector }}
+  ports:
+    - port: {{ .Values.app_service_port }}
+      targetPort: {{ .Values.app_target_Port }}
+      nodePort: {{ .Values.app_nodeport }}
+  type: LoadBalancer

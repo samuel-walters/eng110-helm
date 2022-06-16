@@ -2,13 +2,13 @@ apiVersion: v1
 entries:
   eng110-nodeapp:
   - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2022-06-16T00:48:11.9867354+01:00"
+    appVersion: 1.16.1
+    created: "2022-06-16T01:01:34.0993962+01:00"
     description: A Helm chart for Kubernetes
-    digest: f748959449a9c9b603f9d4a908c3720870e43cd343a53f48911df22e101406df
+    digest: 7d3547b1e8b63f00361aa68e739fcbd556d2624be5a92faf66c8fdcb038789fc
     name: eng110-nodeapp
     type: application
     urls:
-    - https://samuel-walters.github.io/eng110-helm/eng110-nodeapp-0.1.0.tgz
-    version: 0.1.0
-generated: "2022-06-16T00:48:11.9849446+01:00"
+    - https://samuel-walters.github.io/eng110-helm/eng110-nodeapp-0.1.1.tgz
+    version: 0.1.1
+generated: "2022-06-16T01:01:34.0993962+01:00"

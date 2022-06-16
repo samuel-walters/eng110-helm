@@ -1,4 +1,3 @@
----
 # App Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -31,16 +30,22 @@ spec:
               memory: 256Mi
               cpu: "0.2"
 ---
-#Service for App
-apiVersion: v1
-kind: Service
+# Mongo Deployment
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: {{ .Values.app_service_name }}
+  name: {{ .Values.db_name }}
 spec:
   selector:
-    app: {{ .Values.app_selector }}
-  ports:
-    - port: {{ .Values.app_service_port }}
-      targetPort: {{ .Values.app_target_Port }}
-      nodePort: {{ .Values.app_nodeport }}
-  type: LoadBalancer
+    matchLabels:
+      app: {{ .Values.db_selector }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db_selector }}
+    spec:
+      containers:
+        - name: {{ .Values.db_selector }}
+          image: {{ .Values.db_image_name }}
+          ports:
+            - containerPort: {{ .Values.db_container_port }}
