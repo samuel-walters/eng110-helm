@@ -13,6 +13,7 @@ spec:
       labels:
         app: {{ .Values.app_selector }}
     spec:
+      nodeName: {{ .Values.app_node_to_run_on }}
       containers:
         - name: {{ .Values.app_selector }}
           image: samuelwalters/app:v9
@@ -44,7 +45,6 @@ spec:
       labels:
         app: {{ .Values.db_selector }}
     spec:
-      nodeName: {{ .Values.db_node_to_run_on }}
       containers:
         - name: {{ .Values.db_selector }}
           image: {{ .Values.db_image_name }}
