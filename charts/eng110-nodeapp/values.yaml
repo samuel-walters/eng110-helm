@@ -8,7 +8,6 @@ app_container_port: 3000
 app_env_name: DB_HOST
 app_env_value: mongodb://eng110-service-mongo:27017/posts
 app_image_pull_policy: Always
-app_node_to_run_on: k8-master
 
 # app service settings
 
