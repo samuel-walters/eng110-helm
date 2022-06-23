@@ -34,4 +34,4 @@ Once Helm is installed, you can add this repository with the command `helm repo 
 
 # Setting up your own Helm repository.
 
-Please click [here](https://github.com/samuel-walters/Complete-CICD/blob/main/Set_Up_Helm_Repository.md) to view documentation for how to set up your own Helm repository on GitHub.
+Please click [here](https://github.com/samuel-walters/Complete-CICD/blob/main/documentation/Set_Up_Helm_Repository.md) to view documentation for how to set up your own Helm repository on GitHub.
